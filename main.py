@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms import *
 from wtforms.validators import DataRequired
+from flask_bootstrap import Bootstrap4
 
 '''
 Red underlines? Install the required packages first: 
@@ -25,6 +26,8 @@ class MyForm(FlaskForm):
 
 
 app = Flask(__name__)
+
+bootstrap = Bootstrap4(app)
 
 app.secret_key = "nacho_key"
 

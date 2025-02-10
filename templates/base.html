@@ -4,15 +4,11 @@
     <meta charset="UTF-8">
     <title>{%block title%} {%endblock%}</title>
     <style>
-        {% block styling %}
-        body{
-            background: green;
-        }
-        {% endblock %}
     </style>
 
 </head>
 <body>
+{{ bootstrap.load_css() }}
 {%block content%}{%endblock%}
 </body>
 </html>
