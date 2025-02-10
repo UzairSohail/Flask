@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms import *
 from wtforms.validators import DataRequired
+from flask_bootstrap import Bootstrap4
 
 '''
 Red underlines? Install the required packages first: 
@@ -18,12 +19,15 @@ This will install the packages from requirements.txt for this project.
 
 
 class MyForm(FlaskForm):
-    email = StringField('email', validators=[DataRequired()])
-    password = PasswordField('password', validators=[DataRequired()])
+    email = StringField('email', validators=[DataRequired(),
+                                             validators.Email()])
+    password = PasswordField('password', validators=[DataRequired(), validators.Length(min=6), ])
     submit = SubmitField(label="submit")
 
 
 app = Flask(__name__)
+
+bootstrap = Bootstrap4(app)
 
 app.secret_key = "nacho_key"
 
@@ -33,9 +37,14 @@ def home():
     return render_template('index.html')
 
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
     _form = MyForm()
+    if _form.validate_on_submit():
+        if _form.email.data == "admin@email.com" and _form.password.data == "12345678":
+            return render_template('success.html')
+        else:
+            return render_template('denied.html')
     return render_template('login.html', form=_form)
 
 
